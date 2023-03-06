@@ -1,24 +1,85 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import { BrowserRouter } from 'react-router-dom';
+import DeliveryApi from './api/api';
+import useLocalStorage from './hooks/UseLocalStorage';
+import LoadingSpinner from './common/LoadingSpinner';
+import { UserContext } from './auth/UserContext';
+import Navigation from './routes-nav/Navigation';
+import AppRoutes from './routes-nav/AppRoutes';
+
+export const TOKEN_STORAGE_ID = 'delivery-api-token';
 
 function App() {
+const[infoLoaded, setInfoLoaded] = useState(false);
+const[currentUser, setCurrentUser] = useState(null);
+const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
+
+useEffect(
+  function loadUserInfo(){
+    async function getCurrentUser(){
+      if(token){
+        try{
+          //put the token on the API class so it can be used to call the API
+          DeliveryApi.token = token;
+          let currentUser = await DeliveryApi.getCurrentUser();
+          setCurrentUser(currentUser)
+        }catch(err){
+          setCurrentUser(null)
+        }
+      }
+      setInfoLoaded(true);
+    }
+    setInfoLoaded(false);
+    getCurrentUser();
+  },
+  [token]
+);
+
+//handle sitewide logout
+function logout(){
+  setCurrentUser(null);
+  setToken(null);
+}
+
+//handle sitewide signup
+async function signup(signupData){
+  try{
+    let token = await DeliveryApi.signup(signupData);
+    setToken(token);
+    return{success:true};
+  }catch(err){
+    console.error('signup failed', err);
+    return{
+      success:false, err
+    }
+  }
+}
+
+//handle sitewide login
+async function login(loginData){
+  try{
+    let token = await DeliveryApi.login(loginData);
+    console.log('token',  token);
+    setToken(token);
+    return{success:true};
+  }catch(err){
+    console.error('login failed', err);
+  }
+}
+
+if(!infoLoaded) return <LoadingSpinner/>
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+     <BrowserRouter>
+        <UserContext.Provider value={{currentUser, setCurrentUser}}>
+            <div>
+              <Navigation logout = {logout}/>
+              <AppRoutes login = {login} signup = {signup}/>
+            </div>
+        </UserContext.Provider >
+     </BrowserRouter>
   );
 }
 
