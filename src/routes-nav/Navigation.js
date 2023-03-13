@@ -9,8 +9,6 @@ import { useCurrentUser } from '../auth/UserContext';
 
 function Navigation({logout}){
     const currentUser = useCurrentUser();
-    console.log('currenuser', currentUser);
-
     function LoggedInManager(){
         return(
             <ul>
@@ -29,7 +27,7 @@ function Navigation({logout}){
                         Driver list
                     </NavLink>
                 </li>
-                <Link>
+                <Link to = '/login' onClick={logout}>
                     logout {currentUser.firstName}
                 </Link>
             </ul>
@@ -92,6 +90,11 @@ function Navigation({logout}){
                     <NavLink>
                         Order history
                     </NavLink>
+                </li>
+                <li>
+                    <Link to = '/login' onClick={logout}>
+                        logout {currentUser.firstName}
+                    </Link>
                 </li>
             </ul>
         )

@@ -14,6 +14,7 @@ function LoginForm({login}){
     async function handleSubmit(evt){
         evt.preventDefault()
         let result = await login(formData);
+        console.log('results', result);
         if(result.success){
             navigate('/')
         }else{

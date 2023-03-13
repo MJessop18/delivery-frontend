@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext, createContext } from 'react';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import DeliveryApi from './api/api';
@@ -15,14 +15,19 @@ const[infoLoaded, setInfoLoaded] = useState(false);
 const[currentUser, setCurrentUser] = useState(null);
 const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
 
+const UserContext = createContext();
+
 useEffect(
   function loadUserInfo(){
     async function getCurrentUser(){
       if(token){
         try{
+          console.log('test2', token);
           //put the token on the API class so it can be used to call the API
           DeliveryApi.token = token;
           let currentUser = await DeliveryApi.getCurrentUser();
+          console.log('test3');
+          console.log('currentUser', currentUser)
           setCurrentUser(currentUser)
         }catch(err){
           setCurrentUser(null)
@@ -60,8 +65,8 @@ async function signup(signupData){
 async function login(loginData){
   try{
     let token = await DeliveryApi.login(loginData);
-    console.log('token',  token);
     setToken(token);
+    console.log('token', token);
     return{success:true};
   }catch(err){
     console.error('login failed', err);

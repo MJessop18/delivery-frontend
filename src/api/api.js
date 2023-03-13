@@ -1,5 +1,5 @@
 import axios from "axios";
-import { jwt } from "jsonwebtoken";
+import { jwt, parseJwt } from "jsonwebtoken";
 
 const BASE_URL = 'http://localhost:3001';
 
@@ -11,7 +11,6 @@ class DeliveryApi{
     static token;
     static async request(endPoint, data = {}, method = 'get'){
         const url = `${BASE_URL}/${endPoint}`;
-        console.log('DeliveryApi', DeliveryApi);
         const headers = DeliveryApi.token
         ? {Authorization: `Bearer ${DeliveryApi.token}`}
         :{};
@@ -30,7 +29,9 @@ class DeliveryApi{
         if(!this.token){
             return undefined;
         }
+        console.log('test1', parseJwt);
         const{ userId } = jwt.decode(this.token);
+        console.log('userID', userId);
         let res = await this.request(`employee/${userId}`);
         return res.employee;
     }
@@ -47,7 +48,6 @@ class DeliveryApi{
 
     static async login(data){
         let res = await this.request('employee/login', data, 'post');
-        console.log('res', res.token);
         return res.token
     }
     // static async getEmployees(){
