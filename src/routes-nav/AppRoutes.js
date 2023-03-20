@@ -8,15 +8,17 @@ import SignupEmployeeForm from "../auth/SignupEmployeeForm";
 
 function AppRoutes({login, signup, logout}){
     const currentUser = useCurrentUser();
+    console.log('currentuser1000', currentUser)
     return(
         <div>
             <Routes>
             <Route path = '/login' element = {<LoginForm login = {login}/>}/>
             <Route path = '/employee-signup' element = {<SignupEmployeeForm signup = {signup}/>}/>
-            {!currentUser === 'manager'?(
+            {currentUser.currentUser?(
             <Route to = '/login' element = {<LoginForm login = {login}/>}/>
             ):(
-                <Route to = '/employee/personel' element = {<EmployeeList/>}/>
+                <Route path = '/employee/personel' element = {<EmployeeList/>}/>
+                
             )}
             </Routes>
         </div>

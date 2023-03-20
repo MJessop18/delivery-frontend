@@ -9,7 +9,7 @@ import { NavLink } from 'react-router-dom';
 //on mount loads employees from API
 //route into /employees
 
-function employeeList(){
+function EmployeeList(){
     const [employees, setEmployees] = useState(null);
 
     useEffect(function getEmployeesOnMount(){
@@ -38,4 +38,4 @@ function employeeList(){
         </div>
     )
 }
-export default employeeList;
+export default EmployeeList;

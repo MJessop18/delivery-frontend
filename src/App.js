@@ -15,18 +15,17 @@ const[infoLoaded, setInfoLoaded] = useState(false);
 const[currentUser, setCurrentUser] = useState(null);
 const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
 
-const UserContext = createContext();
+//const UserContext = createContext();
 
 useEffect(
   function loadUserInfo(){
     async function getCurrentUser(){
       if(token){
         try{
-          console.log('test2', token);
           //put the token on the API class so it can be used to call the API
           DeliveryApi.token = token;
+          console.log('test3', token);
           let currentUser = await DeliveryApi.getCurrentUser();
-          console.log('test3');
           console.log('currentUser', currentUser)
           setCurrentUser(currentUser)
         }catch(err){

@@ -13,4 +13,5 @@ export const UserContext = createContext({});
 
 export function useCurrentUser(){
     return useContext(UserContext);
+    
 }

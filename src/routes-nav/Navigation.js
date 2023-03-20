@@ -9,6 +9,7 @@ import { useCurrentUser } from '../auth/UserContext';
 
 function Navigation({logout}){
     const currentUser = useCurrentUser();
+    console.log('currentuser', currentUser.currentUser);
     function LoggedInManager(){
         return(
             <ul>
@@ -23,12 +24,12 @@ function Navigation({logout}){
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink>
+                    <NavLink to = '/employee/personel'>
                         Driver list
                     </NavLink>
                 </li>
                 <Link to = '/login' onClick={logout}>
-                    logout {currentUser.firstName}
+                    logout {currentUser.currentUser.firstname}
                 </Link>
             </ul>
         )
@@ -43,8 +44,8 @@ function Navigation({logout}){
                     </NavLink>
                 </li>
                 <li>
-                    <Link>
-                        logout {currentUser.firstName}
+                    <Link to = '/login' onClick={logout}> 
+                        logout {currentUser.currentUser.firstname}
                     </Link>
                 </li>
             </ul>
@@ -93,7 +94,7 @@ function Navigation({logout}){
                 </li>
                 <li>
                     <Link to = '/login' onClick={logout}>
-                        logout {currentUser.firstName}
+                        logout {currentUser.currentUser.firstname}
                     </Link>
                 </li>
             </ul>
@@ -105,11 +106,11 @@ function Navigation({logout}){
             <Link to ='/'>
                 Polar Express
             </Link>
-            {!currentUser?(
+            {currentUser.currentUser === null?(
                 <LoggedOutNav/>
-            ):currentUser.role === 'manager'?(
+            ):currentUser.currentUser.role === 'manager'?(
                 <LoggedInManager/>
-            ):currentUser.role === 'driver'?(
+            ):currentUser.currentUser.role === 'driver'?(
                 <LoggedInDriver/>
             ):(
                 <LoggedInCustomer/>
