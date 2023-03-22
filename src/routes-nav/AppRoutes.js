@@ -3,19 +3,22 @@ import { useCurrentUser } from "../auth/UserContext";
 
 
 import EmployeeList from '../employee/EmployeeList';
-import LoginForm from "../auth/LoginForm";
+import EmployeeLoginForm from "../auth/EmployeeLoginForm";
+import CustomerLoginForm from "../auth/CustomerLoginForm";
 import SignupEmployeeForm from "../auth/SignupEmployeeForm";
+import SignupCustomerForm from "../auth/SignupCustomerForm";
 
-function AppRoutes({login, signup, logout}){
+function AppRoutes({employeeLogin, customerLogin, signupEmployee, signupCustomer, logout}){
     const currentUser = useCurrentUser();
-    console.log('currentuser1000', currentUser)
     return(
         <div>
             <Routes>
-            <Route path = '/login' element = {<LoginForm login = {login}/>}/>
-            <Route path = '/employee-signup' element = {<SignupEmployeeForm signup = {signup}/>}/>
+            <Route path = '/employee/login' element = {<EmployeeLoginForm employeeLogin = {employeeLogin}/>}/>
+            <Route path = '/customer/login' element = {<CustomerLoginForm customerLogin = {customerLogin}/>}/>
+            <Route path = '/employee-signup' element = {<SignupEmployeeForm signupEmployee = {signupEmployee}/>}/>
+            <Route path = '/customer-signup' element = {<SignupCustomerForm signupCustomer = {signupCustomer}/>}/>
             {currentUser.currentUser?(
-            <Route to = '/login' element = {<LoginForm login = {login}/>}/>
+            <Route to = '/login' element = {<EmployeeLoginForm employeeLogin = {employeeLogin}/>}/>
             ):(
                 <Route path = '/employee/personel' element = {<EmployeeList/>}/>
                 

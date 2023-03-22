@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Alert from '../common/Alert';
 
-function SignupEmployeeForm({signupEmployee}){
+function SignupCustomerForm({signupCustomer}){
     let navigate = useNavigate();
 
     const[formData, setFormData] = useState({
@@ -10,8 +10,7 @@ function SignupEmployeeForm({signupEmployee}){
         password:'',
         firstName:'',
         lastName:'',
-        phoneNumber:'',
-        role:'driver'
+        phoneNumber:''
     });
     const[formErrors, setFormErrors] = useState([])
 
@@ -22,22 +21,21 @@ function SignupEmployeeForm({signupEmployee}){
             password,
             firstName:first_name,
             lastName:last_name,
-            phoneNumber:phone_number,
-            role:role
+            phoneNumber:phone_number
         } = formData
         {
-            const formSafe = {email, password, first_name, last_name, phone_number, role};
+            const formSafe = {email, password, first_name, last_name, phone_number};
             evt.preventDefault();
-            let result = await signupEmployee(formSafe);
+            let result = await signupCustomer(formSafe);
             if(result.success){
-                navigate('/employee/pending');
+                navigate('/customer/pending');
             }else{
                 setFormErrors(result.errors)
             }
         }
     }
     function handleBack(){
-        navigate('/employee/personel')
+        navigate('/customer/personel')
     }
     function handleChange(evt){
         const {name, value} = evt.target
@@ -48,7 +46,7 @@ function SignupEmployeeForm({signupEmployee}){
         <div>
             <div>
                 <h2>
-                    Driver Signup
+                    Customer Signup
                 </h2>
                 <form onSubmit = {handleSubmit}>
                     <div>
@@ -122,4 +120,4 @@ function SignupEmployeeForm({signupEmployee}){
         </div>
     )
 }
-export default SignupEmployeeForm;
+export default SignupCustomerForm;

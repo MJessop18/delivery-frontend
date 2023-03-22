@@ -24,9 +24,7 @@ useEffect(
         try{
           //put the token on the API class so it can be used to call the API
           DeliveryApi.token = token;
-          console.log('test3', token);
           let currentUser = await DeliveryApi.getCurrentUser();
-          console.log('currentUser', currentUser)
           setCurrentUser(currentUser)
         }catch(err){
           setCurrentUser(null)
@@ -46,10 +44,10 @@ function logout(){
   setToken(null);
 }
 
-//handle sitewide signup
-async function signup(signupData){
+//handle sitewide employee signup
+async function signupEmployee(signupData){
   try{
-    let token = await DeliveryApi.signup(signupData);
+    let token = await DeliveryApi.signupEmployee(signupData);
     setToken(token);
     return{success:true};
   }catch(err){
@@ -60,12 +58,36 @@ async function signup(signupData){
   }
 }
 
-//handle sitewide login
-async function login(loginData){
+//handle sitewide customer signup
+async function signupCustomer(signupData){
   try{
-    let token = await DeliveryApi.login(loginData);
+    let token = await DeliveryApi.signupCustomer(signupData);
     setToken(token);
-    console.log('token', token);
+    return{success:true};
+  }catch(err){
+    console.error('signup failed', err);
+    return{
+      success:false, err
+    }
+  }
+}
+
+//handle sitewide employee login
+async function employeeLogin(loginData){
+  try{
+    let token = await DeliveryApi.employeeLogin(loginData);
+    setToken(token);
+    return{success:true};
+  }catch(err){
+    console.error('login failed', err);
+  }
+}
+
+//handle sitewide customer login
+async function customerLogin(loginData){
+  try{
+    let token = await DeliveryApi.customerLogin(loginData);
+    setToken(token);
     return{success:true};
   }catch(err){
     console.error('login failed', err);
@@ -80,7 +102,7 @@ if(!infoLoaded) return <LoadingSpinner/>
         <UserContext.Provider value={{currentUser, setCurrentUser}}>
             <div>
               <Navigation logout = {logout}/>
-              <AppRoutes login = {login} signup = {signup}/>
+              <AppRoutes employeeLogin = {employeeLogin} customerLogin = {customerLogin} signupEmployee = {signupEmployee} signupCustomer = {signupCustomer}/>
             </div>
         </UserContext.Provider >
      </BrowserRouter>

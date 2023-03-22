@@ -9,7 +9,7 @@ import { useCurrentUser } from '../auth/UserContext';
 
 function Navigation({logout}){
     const currentUser = useCurrentUser();
-    console.log('currentuser', currentUser.currentUser);
+    console.log('curuser', currentUser)
     function LoggedInManager(){
         return(
             <ul>
@@ -56,13 +56,23 @@ function Navigation({logout}){
         return(
             <ul>
                 <li>
-                    <Link to = '/login'>
-                        login
+                    <Link to = '/customer/login'>
+                        Customer login
+                    </Link>
+                </li>
+                <li>
+                    <Link to = '/employee/login'>
+                        Driver login
                     </Link>
                 </li>
                 <li>
                     <Link to = '/employee-signup'>
-                        Sign up
+                        Driver Signup
+                    </Link>
+                </li>
+                <li>
+                    <Link to = '/customer-signup'>
+                        Customer Signup
                     </Link>
                 </li>
             </ul>

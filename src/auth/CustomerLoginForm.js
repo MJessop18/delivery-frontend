@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Alert from '../common/Alert';
 
 //login form
-function LoginForm({login}){
+function CustomerLoginForm({customerLogin}){
     let navigate = useNavigate()
     const[formData, setFormData] = useState({
         email:'',
@@ -13,8 +13,8 @@ function LoginForm({login}){
 
     async function handleSubmit(evt){
         evt.preventDefault()
-        let result = await login(formData);
-        console.log('results', result);
+        console.log('form',formData)
+        let result = await customerLogin(formData);
         if(result.success){
             navigate('/')
         }else{
@@ -64,7 +64,7 @@ function LoginForm({login}){
                                 <Alert type='danger' messages={formErrors}/>
                             ):null}
                             <button onSubmit={handleSubmit}>
-                                login
+                                Customer login
                             </button>
                         </form>
                     </div>
@@ -73,4 +73,4 @@ function LoginForm({login}){
         </div>
     );
 }
-export default LoginForm;
+export default CustomerLoginForm;

@@ -49,9 +49,7 @@ const BASE_URL = 'http://localhost:3001';
             return undefined;
         }
         const{ userId } = jwt_decode(this.token);
-        console.log('userID', userId);
         let res = await this.request(`employee/${userId}`);
-        console.log('resemp', res.employee);
         return res.employee;
     }
 
@@ -60,21 +58,25 @@ const BASE_URL = 'http://localhost:3001';
         return res.employees;
     }
 
-    static async signup(data){
+    static async signupEmployee(data){
         let res = await this.request('employee/', data, 'post');
         return res.token
     }
 
-    static async login(data){
+    static async signupCustomer(data){
+      let res = await this.request('customer/', data, 'post');
+      return res.token
+  }
+
+    static async employeeLogin(data){
         let res = await this.request('employee/login', data, 'post');
         return res.token
     }
-    // static async getEmployees(){
-    //     let res = await this.request('employee/all');
-    //     return(
-    //         res.employees
-    //     )
-    // }
-}
 
+    static async customerLogin(data){
+      let res = await this.request('customer/login', data, 'post');
+      console.log('jwt', jwt_decode(res.token))
+      return res.token
+  }
+}
 export default DeliveryApi;
